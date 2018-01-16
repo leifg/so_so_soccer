@@ -8,14 +8,14 @@ defmodule SoSoSoccer.Crud.Repo.Migrations.CreateStandingsView do
             t.team_id,
             max(te.long_name) as team_name,
             max(t.league_id) as league_id,
-            sum(t.games) as games,
-            sum(t.wins) as wins,
-            sum(t.draws) as draws,
-            sum(t.losses) as losses,
-            sum(t.goals_for) as goals_for,
-            sum(t.goals_against) as goals_against,
-            (sum(t.goals_for) - sum(t.goals_against)) as goal_difference,
-            sum(t.points) as points
+            sum(t.games)::int as games,
+            sum(t.wins)::int  as wins,
+            sum(t.draws)::int  as draws,
+            sum(t.losses)::int  as losses,
+            sum(t.goals_for)::int  as goals_for,
+            sum(t.goals_against)::int  as goals_against,
+            (sum(t.goals_for) - sum(t.goals_against))::int  as goal_difference,
+            sum(t.points)::int  as points
       from
         (select home_team_api_id as team_id,
                 m.season,
