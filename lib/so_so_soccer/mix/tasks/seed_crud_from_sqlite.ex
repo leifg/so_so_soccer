@@ -81,35 +81,6 @@ defmodule Mix.Tasks.SeedCrudFromSqlite do
     end)
   end
 
-  defp transform_fun(Country), do: fn i -> i end
-  defp transform_fun(League), do: fn i -> i end
-
-  defp transform_fun(Team),
-    do: fn i ->
-      renamed_params = [
-        api_id: i[:team_api_id],
-        fifa_api_id: i[:team_fifa_api_id],
-        long_name: i[:team_long_name],
-        short_name: i[:team_short_name]
-      ]
-
-      i
-      |> Keyword.drop([:team_api_id, :team_fifa_api_id, :team_long_name, :team_short_name])
-      |> Keyword.merge(renamed_params)
-    end
-
-  defp transform_fun(Match),
-    do: fn i ->
-      renamed_params = [
-        api_id: i[:match_api_id],
-        played_at: NaiveDateTime.from_iso8601!(i[:date])
-      ]
-
-      i
-      |> Keyword.drop(fields_to_drop)
-      |> Keyword.merge(renamed_params)
-    end
-
   defp myapp, do: :so_so_soccer
 
   defp prepare do
