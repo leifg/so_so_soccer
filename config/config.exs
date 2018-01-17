@@ -7,7 +7,17 @@ use Mix.Config
 
 # General application configuration
 config :so_so_soccer,
-  ecto_repos: [SoSoSoccer.Crud.Repo]
+  ecto_repos: [SoSoSoccer.Crud.Repo, SoSoSoccer.EventSourced.Repo]
+
+config :commanded_ecto_projections,
+  repo: SoSoSoccer.EventSourced.Repo
+
+config :commanded,
+  event_store_adapter: Commanded.EventStore.Adapters.EventStore
+
+config :eventstore,
+  registry: :local,
+  column_data_type: "jsonb"
 
 # Configures the endpoint
 config :so_so_soccer, SoSoSoccerWeb.Endpoint,

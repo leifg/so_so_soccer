@@ -27,6 +27,26 @@ config :logger, :console, format: "[$level] $message\n"
 config :phoenix, :stacktrace_depth, 20
 
 # Configure your database
+config :eventstore, EventStore.Storage,
+  serializer: EventStore.JsonbSerializer,
+  types: EventStore.PostgresTypes,
+  username: "so_so_soccer",
+  password: "so_so_soccer",
+  database: "so_so_soccer_eventstore_dev",
+  hostname: "localhost",
+  port: 5432,
+  pool: DBConnection.Poolboy,
+  pool_size: 10
+
+config :so_so_soccer, SoSoSoccer.EventSourced.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  username: "so_so_soccer",
+  password: "so_so_soccer",
+  database: "so_so_soccer_readstore_dev",
+  hostname: "localhost",
+  port: 5432,
+  pool_size: 10
+
 config :so_so_soccer, SoSoSoccer.Crud.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "so_so_soccer",
