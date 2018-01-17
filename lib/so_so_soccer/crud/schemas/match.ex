@@ -39,37 +39,47 @@ defmodule SoSoSoccer.Crud.Schema.Match do
   end
 
   def standings(season, league_id) do
-    team_lookup = Repo.all(Team) |> Enum.reduce(%{}, fn(team, acc) ->
-      Map.put(acc, team.api_id, team.long_name)
-    end)
+    team_lookup =
+      Repo.all(Team)
+      |> Enum.reduce(%{}, fn team, acc ->
+        Map.put(acc, team.api_id, team.long_name)
+      end)
 
-    query = from(
-      m in __MODULE__,
-      where: m.season == ^season and m.league_id == ^league_id
-    )
+    query =
+      from(
+        m in __MODULE__,
+        where: m.season == ^season and m.league_id == ^league_id
+      )
 
-    query |> Repo.all() |> Enum.reduce(%{}, fn(row, acc) ->
-      acc |> Map.merge(
-        %{row.home_team_api_id => %{
-          games: 1,
-          wins: wins(row.home_team_goal, row.away_team_goal),
-          draws: draws(row.home_team_goal, row.away_team_goal),
-          losses: losses(row.home_team_goal, row.away_team_goal),
-          goals_for: row.home_team_goal,
-          goals_against: row.away_team_goal,
-          points: points(row.home_team_goal, row.away_team_goal)
-        }},
+    query |> Repo.all()
+    |> Enum.reduce(%{}, fn row, acc ->
+      acc
+      |> Map.merge(
+        %{
+          row.home_team_api_id => %{
+            games: 1,
+            wins: wins(row.home_team_goal, row.away_team_goal),
+            draws: draws(row.home_team_goal, row.away_team_goal),
+            losses: losses(row.home_team_goal, row.away_team_goal),
+            goals_for: row.home_team_goal,
+            goals_against: row.away_team_goal,
+            points: points(row.home_team_goal, row.away_team_goal)
+          }
+        },
         &add_up/3
-      ) |> Map.merge(
-        %{row.away_team_api_id => %{
-          games: 1,
-          wins: wins(row.away_team_goal, row.home_team_goal),
-          draws: draws(row.away_team_goal, row.home_team_goal),
-          losses: losses(row.away_team_goal, row.home_team_goal),
-          goals_for: row.away_team_goal,
-          goals_against: row.home_team_goal,
-          points: points(row.away_team_goal, row.home_team_goal)
-        }},
+      )
+      |> Map.merge(
+        %{
+          row.away_team_api_id => %{
+            games: 1,
+            wins: wins(row.away_team_goal, row.home_team_goal),
+            draws: draws(row.away_team_goal, row.home_team_goal),
+            losses: losses(row.away_team_goal, row.home_team_goal),
+            goals_for: row.away_team_goal,
+            goals_against: row.home_team_goal,
+            points: points(row.away_team_goal, row.home_team_goal)
+          }
+        },
         &add_up/3
       )
     end)

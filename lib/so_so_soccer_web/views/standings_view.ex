@@ -19,7 +19,34 @@ defmodule SoSoSoccerWeb.StandingsView do
     "#{year}/#{next_year}"
   end
 
-  def from_crud_list(list) do
+  def from_view_list(list) do
+    map_with_index(list)
+  end
+
+  def from_app_list(list, team_lookup) do
+    Enum.map(list, fn {k, v} ->
+      %{
+        team_name: team_lookup[k],
+        games: v.games,
+        wins: v.wins,
+        draws: v.draws,
+        losses: v.losses,
+        goals_for: v.goals_for,
+        goals_against: v.goals_against,
+        goal_difference: v.goals_for - v.goals_against,
+        points: v.points
+      }
+    end)
+    |> Enum.sort_by(
+      fn s ->
+        {s.points, s.goal_difference, s.goals_for}
+      end,
+      &>=/2
+    )
+    |> map_with_index()
+  end
+
+  defp map_with_index(list) do
     list
     |> Enum.with_index(1)
     |> Enum.map(fn {standing, position} ->

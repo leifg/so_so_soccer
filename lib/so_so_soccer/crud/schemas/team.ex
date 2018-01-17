@@ -1,5 +1,6 @@
 defmodule SoSoSoccer.Crud.Schema.Team do
   use Ecto.Schema
+  alias SoSoSoccer.Crud.Repo
 
   @type t :: %__MODULE__{
           id: non_neg_integer,
@@ -16,5 +17,9 @@ defmodule SoSoSoccer.Crud.Schema.Team do
     field(:fifa_api_id, :integer)
     field(:long_name, :string)
     field(:short_name, :string)
+  end
+
+  def all do
+    Repo.all(__MODULE__)
   end
 end
