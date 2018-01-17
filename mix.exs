@@ -41,7 +41,9 @@ defmodule SoSoSoccer.Mixfile do
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
-      {:sqlitex, "~> 1.3"}
+      {:sqlitex, "~> 1.3"},
+      {:eventstore, github: "commanded/eventstore"},
+      {:commanded, github: "commanded/commanded"}
     ]
   end
 
