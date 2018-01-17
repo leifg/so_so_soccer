@@ -1,0 +1,37 @@
+<h1>Select League and Season</h1>
+
+<div class="container">
+  <form class="form-inline" id="standings">
+    <label class="sr-only" for="leage">League</label>
+    <select class="form-control mb-2 mr-sm-2 mb-sm-0" id="league">
+      <%= for league <- @leagues do %>
+        <option value="<%= league.id %>"><%= league.name %></option>
+      <% end %>
+    </select>
+
+    <label class="sr-only" for="season">Season</label>
+    <select class="form-control mb-2 mr-sm-2 mb-sm-0" id="season">
+      <%= for season <- @seasons do %>
+        <option value="<%= season %>"><%= season_string_from_key(season) %></option>
+      <% end %>
+    </select>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+
+<script>
+  function getSelected(selectBox) {
+    return selectBox.options[selectBox.selectedIndex].value;
+  }
+
+  window.onload=function() {
+    document.getElementById("standings").onsubmit=function() {
+      var league = getSelected(document.getElementById("league"));
+      var season = getSelected(document.getElementById("season"));
+
+      window.location.replace("/" +league+ "/" +season);
+      return false;
+    }
+  }
+</script>

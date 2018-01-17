@@ -17,11 +17,7 @@ defmodule SoSoSoccerWeb.Router do
     # Use the default browser stack
     pipe_through(:browser)
 
-    get("/", PageController, :index)
+    get("/", StandingsController, :index)
+    get("/:league_id/:season", StandingsController, :show)
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", SoSoSoccerWeb do
-  #   pipe_through :api
-  # end
 end

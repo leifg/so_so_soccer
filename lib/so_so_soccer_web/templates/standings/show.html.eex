@@ -1,0 +1,32 @@
+<table class="table">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Team</th>
+      <th scope="col">MP</th>
+      <th scope="col">W</th>
+      <th scope="col">D</th>
+      <th scope="col">L</th>
+      <th scope="col">GF</th>
+      <th scope="col">GA</th>
+      <th scope="col">GD</th>
+      <th scope="col">Pts</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for standing <- @standings do %>
+      <tr>
+        <th scope="row"><%= standing.position %></th>
+        <td><%= standing.team %></td>
+        <td><%= standing.games %></td>
+        <td><%= standing.wins %></td>
+        <td><%= standing.draws %></td>
+        <td><%= standing.losses %></td>
+        <td><%= standing.goals_for %></td>
+        <td><%= standing.goals_against %></td>
+        <td><%= standing.goal_difference %></td>
+        <td><%= standing.points %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
