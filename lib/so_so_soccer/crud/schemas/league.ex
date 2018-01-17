@@ -1,5 +1,6 @@
 defmodule SoSoSoccer.Crud.Schema.League do
   use Ecto.Schema
+  alias SoSoSoccer.Crud.Repo
 
   @type t :: %__MODULE__{
           id: non_neg_integer,
@@ -12,5 +13,9 @@ defmodule SoSoSoccer.Crud.Schema.League do
   schema "leagues" do
     field(:country_id, :integer)
     field(:name, :string)
+  end
+
+  def all do
+    Repo.all(__MODULE__)
   end
 end

@@ -25,7 +25,7 @@ defmodule SoSoSoccer.Crud.Repo.Migrations.CreateSchema do
     create table("matches") do
       add(:country_id, :integer)
       add(:league_id, :integer)
-      add(:season, :string)
+      add(:season, :integer)
       add(:stage, :integer)
       add(:api_id, :integer)
       add(:home_team_api_id, :integer)
@@ -37,5 +37,6 @@ defmodule SoSoSoccer.Crud.Repo.Migrations.CreateSchema do
 
     create(index("matches", [:home_team_api_id]))
     create(index("matches", [:away_team_api_id]))
+    create(index("matches", [:season]))
   end
 end

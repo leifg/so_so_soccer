@@ -64,7 +64,11 @@ defmodule Mix.Tasks.SeedCrudFromSqlite do
   defp insert(Match, items) do
     transformed =
       Enum.map(items, fn i ->
-        Keyword.put(i, :played_at, NaiveDateTime.from_iso8601!(i[:played_at]))
+        Keyword.merge(
+          i,
+          played_at: NaiveDateTime.from_iso8601!(i[:played_at]),
+          season: String.split(i[:season], "/") |> List.first() |> String.to_integer()
+        )
       end)
 
     batch_insert(Match, transformed, @batch_size)
