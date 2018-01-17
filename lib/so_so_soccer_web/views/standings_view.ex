@@ -15,8 +15,7 @@ defmodule SoSoSoccerWeb.StandingsView do
   ]
 
   def season_string_from_key(year) do
-    two_digit_year = year |> String.to_integer() |> rem(100)
-    next_year = to_string(two_digit_year + 1) |> String.pad_leading(2, "0")
+    next_year = (rem(year, 100) + 1) |> to_string() |> String.pad_leading(2, "0")
     "#{year}/#{next_year}"
   end
 
