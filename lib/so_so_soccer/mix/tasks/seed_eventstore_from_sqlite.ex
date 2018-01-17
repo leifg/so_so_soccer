@@ -4,7 +4,6 @@ defmodule Mix.Tasks.SeedEventstoreFromSqlite do
   alias Commanded.EventStore.EventData
   alias SoSoSoccer.EventSourced.Events.{CountryImported,LeagueImported,MatchEnded,MatchStarted,SeasonEnded,SeasonStarted,TeamFounded}
 
-  @batch_size 1000
   @country_query "select id, name from country"
   @league_query "select id, name from league"
   @team_query """
@@ -42,7 +41,6 @@ defmodule Mix.Tasks.SeedEventstoreFromSqlite do
   def run([filename]) do
     Mix.shell().info("Importing #{filename}")
     prepare()
-    drop_postgres()
 
     Sqlitex.with_db(filename, fn db ->
       Mix.shell().info("Importing Countries")
@@ -165,30 +163,6 @@ defmodule Mix.Tasks.SeedEventstoreFromSqlite do
     "season:#{id}"
   end
 
-  defp insert(Match, items) do
-    transformed =
-      Enum.map(items, fn i ->
-        Keyword.merge(
-          i,
-          played_at: NaiveDateTime.from_iso8601!(i[:played_at]),
-          season: String.split(i[:season], "/") |> List.first() |> String.to_integer()
-        )
-      end)
-
-    batch_insert(Match, transformed, @batch_size)
-  end
-
-  defp insert(struct, items) do
-    batch_insert(struct, items, @batch_size)
-  end
-
-  def batch_insert(struct, items, batch_size) do
-    Enum.chunk_every(items, batch_size)
-    |> Enum.each(fn batch ->
-      Repo.insert_all(struct, batch)
-    end)
-  end
-
   defp myapp, do: :so_so_soccer
 
   defp prepare do
@@ -203,9 +177,6 @@ defmodule Mix.Tasks.SeedEventstoreFromSqlite do
     Enum.each(@start_apps, fn app ->
       {:ok, _} = Application.ensure_all_started(app)
     end)
-  end
-
-  defp drop_postgres do
   end
 
   defp wrap(event) do
