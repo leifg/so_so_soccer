@@ -1,4 +1,9 @@
 defmodule SoSoSoccerWeb.StandingsView do
+  alias SoSoSoccer.Crud.Schema.Standing, as: CrudStanding
+  alias SoSoSoccer.Crud.Schema.Match, as: CrudMatch
+  alias SoSoSoccer.Crud.Schema.Team, as: CrudTeam
+
+  alias SoSoSoccer.EventSourced.Schemas.Standing, as: EventSourcedStanding
   use SoSoSoccerWeb, :view
 
   defstruct [
@@ -14,16 +19,33 @@ defmodule SoSoSoccerWeb.StandingsView do
     :points
   ]
 
+  def crud_app(season, league_id) do
+    team_lookup = CrudTeam.all()
+      |> Enum.reduce(%{}, fn t, acc ->
+        Map.put(acc, t.api_id, t.long_name)
+      end)
+
+    CrudMatch.standings(season, league_id) |> from_app_list(team_lookup)
+  end
+
+  def crud_view(season, league_id) do
+    CrudStanding.by_season_and_league(season, league_id) |> from_view_list()
+  end
+
+  def event_sourced(season, league_id) do
+    EventSourcedStanding.by_season_and_league(season, league_id) |> from_es_list()
+  end
+
   def season_string_from_key(year) do
     next_year = (rem(year, 100) + 1) |> to_string() |> String.pad_leading(2, "0")
     "#{year}/#{next_year}"
   end
 
-  def from_view_list(list) do
+  defp from_view_list(list) do
     map_with_index(list)
   end
 
-  def from_app_list(list, team_lookup) do
+  defp from_app_list(list, team_lookup) do
     Enum.map(list, fn {k, v} ->
       %{
         team_name: team_lookup[k],
@@ -46,7 +68,7 @@ defmodule SoSoSoccerWeb.StandingsView do
     |> map_with_index()
   end
 
-  def from_es_list(list) do
+  defp from_es_list(list) do
     Enum.map(list, fn s ->
       %{
         team_name: s.team_long_name,
