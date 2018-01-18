@@ -1,6 +1,6 @@
 defmodule Mix.Tasks.SeedCrudFromSqlite do
   use Mix.Task
-  alias SoSoSoccer.Crud.Repo
+  alias SoSoSoccer.CrudRepo, as: Repo
   alias SoSoSoccer.Crud.Schema.{Country, League, Team, Match}
 
   @batch_size 1000

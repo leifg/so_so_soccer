@@ -7,10 +7,13 @@ use Mix.Config
 
 # General application configuration
 config :so_so_soccer,
-  ecto_repos: [SoSoSoccer.Crud.Repo, SoSoSoccer.EventSourced.Repo]
+  ecto_repos: [SoSoSoccer.CrudRepo, SoSoSoccer.EventSourcedRepo]
+
+# config :so_so_soccer, SoSoSoccer.CrudRepo, priv: "crud_repo"
+# config :so_so_soccer, SoSoSoccer.EventSourcedRepo, priv: "es_repo"
 
 config :commanded_ecto_projections,
-  repo: SoSoSoccer.EventSourced.Repo
+  repo: SoSoSoccer.EventSourcedRepo
 
 config :commanded,
   event_store_adapter: Commanded.EventStore.Adapters.EventStore

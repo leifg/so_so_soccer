@@ -1,7 +1,7 @@
 defmodule SoSoSoccer.Crud.Schema.Match do
   use Ecto.Schema
   import Ecto.Query, only: [from: 2]
-  alias SoSoSoccer.Crud.Repo
+  alias SoSoSoccer.CrudRepo, as: Repo
   alias SoSoSoccer.Crud.Schema.Team
 
   @type t :: %__MODULE__{
@@ -39,12 +39,6 @@ defmodule SoSoSoccer.Crud.Schema.Match do
   end
 
   def standings(season, league_id) do
-    team_lookup =
-      Repo.all(Team)
-      |> Enum.reduce(%{}, fn team, acc ->
-        Map.put(acc, team.api_id, team.long_name)
-      end)
-
     query =
       from(
         m in __MODULE__,

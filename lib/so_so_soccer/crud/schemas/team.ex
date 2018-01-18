@@ -1,6 +1,6 @@
 defmodule SoSoSoccer.Crud.Schema.Team do
   use Ecto.Schema
-  alias SoSoSoccer.Crud.Repo
+  alias SoSoSoccer.CrudRepo, as: Repo
 
   @type t :: %__MODULE__{
           id: non_neg_integer,

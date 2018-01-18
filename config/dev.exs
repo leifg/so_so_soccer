@@ -38,7 +38,7 @@ config :eventstore, EventStore.Storage,
   pool: DBConnection.Poolboy,
   pool_size: 10
 
-config :so_so_soccer, SoSoSoccer.EventSourced.Repo,
+config :so_so_soccer, SoSoSoccer.EventSourcedRepo,
   adapter: Ecto.Adapters.Postgres,
   username: "so_so_soccer",
   password: "so_so_soccer",
@@ -47,7 +47,7 @@ config :so_so_soccer, SoSoSoccer.EventSourced.Repo,
   port: 5432,
   pool_size: 10
 
-config :so_so_soccer, SoSoSoccer.Crud.Repo,
+config :so_so_soccer, SoSoSoccer.CrudRepo,
   adapter: Ecto.Adapters.Postgres,
   username: "so_so_soccer",
   password: "so_so_soccer",

@@ -1,7 +1,7 @@
 defmodule SoSoSoccer.Crud.Schema.Standing do
   use Ecto.Schema
   import Ecto.Query, only: [from: 2]
-  alias SoSoSoccer.Crud.Repo
+  alias SoSoSoccer.CrudRepo, as: Repo
 
   @type t :: %__MODULE__{
           season: non_neg_integer,
