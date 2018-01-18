@@ -43,6 +43,7 @@ defmodule SoSoSoccer.Mixfile do
       {:cowboy, "~> 1.0"},
       {:sqlitex, "~> 1.3"},
       {:poison, "~> 3.1"},
+      {:benchee, "~> 0.11"},
       {:eventstore, github: "commanded/eventstore", override: true},
       {:commanded_eventstore_adapter, github: "commanded/commanded-eventstore-adapter"},
       {:commanded_ecto_projections, github: "commanded/commanded-ecto-projections"},
