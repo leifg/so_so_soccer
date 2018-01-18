@@ -5,8 +5,11 @@ defmodule SoSoSoccer.Application do
     import Supervisor.Spec
 
     children = [
-      supervisor(SoSoSoccer.Crud.Repo, []),
-      supervisor(SoSoSoccerWeb.Endpoint, [])
+      supervisor(SoSoSoccer.CrudRepo, []),
+      supervisor(SoSoSoccer.EventSourcedRepo, []),
+      supervisor(SoSoSoccerWeb.Endpoint, []),
+      worker(SoSoSoccer.EventSourced.Projectors.Teams, [], id: :teams_projector),
+      worker(SoSoSoccer.EventSourced.Projectors.Standings, [], id: :standings_projector)
     ]
 
     opts = [strategy: :one_for_one, name: SoSoSoccer.Supervisor]

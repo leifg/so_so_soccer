@@ -3,6 +3,7 @@ defmodule SoSoSoccer.Crud.Schema.Match do
   import Ecto.Query, only: [from: 2]
   alias SoSoSoccer.CrudRepo, as: Repo
   alias SoSoSoccer.Crud.Schema.Team
+  alias SoSoSoccer.Rules
 
   @type t :: %__MODULE__{
           id: non_neg_integer,
@@ -52,12 +53,12 @@ defmodule SoSoSoccer.Crud.Schema.Match do
         %{
           row.home_team_api_id => %{
             games: 1,
-            wins: wins(row.home_team_goal, row.away_team_goal),
-            draws: draws(row.home_team_goal, row.away_team_goal),
-            losses: losses(row.home_team_goal, row.away_team_goal),
+            wins: Rules.wins(row.home_team_goal, row.away_team_goal),
+            draws: Rules.draws(row.home_team_goal, row.away_team_goal),
+            losses: Rules.losses(row.home_team_goal, row.away_team_goal),
             goals_for: row.home_team_goal,
             goals_against: row.away_team_goal,
-            points: points(row.home_team_goal, row.away_team_goal)
+            points: Rules.points(row.home_team_goal, row.away_team_goal)
           }
         },
         &add_up/3
@@ -66,45 +67,17 @@ defmodule SoSoSoccer.Crud.Schema.Match do
         %{
           row.away_team_api_id => %{
             games: 1,
-            wins: wins(row.away_team_goal, row.home_team_goal),
-            draws: draws(row.away_team_goal, row.home_team_goal),
-            losses: losses(row.away_team_goal, row.home_team_goal),
+            wins: Rules.wins(row.away_team_goal, row.home_team_goal),
+            draws: Rules.draws(row.away_team_goal, row.home_team_goal),
+            losses: Rules.losses(row.away_team_goal, row.home_team_goal),
             goals_for: row.away_team_goal,
             goals_against: row.home_team_goal,
-            points: points(row.away_team_goal, row.home_team_goal)
+            points: Rules.points(row.away_team_goal, row.home_team_goal)
           }
         },
         &add_up/3
       )
     end)
-  end
-
-  defp points(home_goals, away_goals) do
-    cond do
-      home_goals > away_goals -> 3
-      home_goals < away_goals -> 0
-      true -> 1
-    end
-  end
-
-  defp wins(home_goals, away_goals) do
-    if win_indicator(home_goals, away_goals) == 1, do: 1, else: 0
-  end
-
-  defp draws(home_goals, away_goals) do
-    if win_indicator(home_goals, away_goals) == 0, do: 1, else: 0
-  end
-
-  defp losses(home_goals, away_goals) do
-    if win_indicator(home_goals, away_goals) == -1, do: 1, else: 0
-  end
-
-  defp win_indicator(home_goals, away_goals) do
-    cond do
-      home_goals > away_goals -> 1
-      home_goals < away_goals -> -1
-      true -> 0
-    end
   end
 
   def add_up(_k, nil, v2), do: v2
