@@ -1,5 +1,6 @@
 defmodule SoSoSoccerWeb.StandingsController do
   alias SoSoSoccer.Crud.Schema.{League, Match, Standing, Team}
+  alias SoSoSoccer.EventSourced.Schemas.Standing, as: EsStanding
   alias SoSoSoccerWeb.StandingsView
   use SoSoSoccerWeb, :controller
 
@@ -11,7 +12,7 @@ defmodule SoSoSoccerWeb.StandingsController do
     render(
       conn,
       "show.html",
-      standings: app_standings(String.to_integer(season), String.to_integer(league_id))
+      standings: es_standings(String.to_integer(season), String.to_integer(league_id))
     )
   end
 
@@ -27,5 +28,9 @@ defmodule SoSoSoccerWeb.StandingsController do
       end)
 
     Match.standings(season, league_id) |> StandingsView.from_app_list(team_lookup)
+  end
+
+  defp es_standings(season, league_id) do
+    EsStanding.by_season_and_league(season, league_id)  |> StandingsView.from_es_list()
   end
 end

@@ -46,6 +46,23 @@ defmodule SoSoSoccerWeb.StandingsView do
     |> map_with_index()
   end
 
+  def from_es_list(list) do
+    Enum.map(list, fn s ->
+      %{
+        team_name: s.team_long_name,
+        games: s.games,
+        wins: s.wins,
+        draws: s.draws,
+        losses: s.losses,
+        goals_for: s.goals_for,
+        goals_against: s.goals_against,
+        goal_difference: s.goal_difference,
+        points: s.points
+      }
+    end)
+    |> map_with_index()
+  end
+
   defp map_with_index(list) do
     list
     |> Enum.with_index(1)

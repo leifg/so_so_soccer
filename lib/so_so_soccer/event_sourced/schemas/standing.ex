@@ -1,5 +1,6 @@
 defmodule SoSoSoccer.EventSourced.Schemas.Standing do
   use Ecto.Schema
+  import Ecto.Query, only: [from: 2]
   alias SoSoSoccer.EventSourcedRepo, as: Repo
 
   @type t :: %__MODULE__{
@@ -38,5 +39,9 @@ defmodule SoSoSoccer.EventSourced.Schemas.Standing do
 
   def by_team_and_season(team_api_id, season_id) do
     Repo.get_by(__MODULE__, %{team_api_id: team_api_id, season_id: season_id})
+  end
+
+  def by_season_and_league(season_id, league_id) do
+    from(s in __MODULE__, where: s.season_id == ^season_id and s.league_id == ^league_id, order_by: [desc: s.sort_key]) |> Repo.all()
   end
 end
