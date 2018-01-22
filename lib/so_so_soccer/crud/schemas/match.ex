@@ -80,7 +80,7 @@ defmodule SoSoSoccer.Crud.Schema.Match do
     end)
   end
 
-  def add_up(_k, nil, v2), do: v2
-  def add_up(_k, v1, v2) when is_integer(v1), do: v1 + v2
-  def add_up(_k, v1, v2) when is_map(v1), do: Map.merge(v1, v2, &add_up/3)
+  defp add_up(_k, nil, v2), do: v2
+  defp add_up(_k, v1, v2) when is_integer(v1), do: v1 + v2
+  defp add_up(_k, v1, v2) when is_map(v1), do: Map.merge(v1, v2, &add_up/3)
 end
