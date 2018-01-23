@@ -70,6 +70,9 @@ Start server:
 mix phx.server
 ```
 
+
+Note: for event sourced view, wait until projection is updated
+
 Go to `localhost:4000` to select the season and leage
 
 ## Change way of calculating standings
