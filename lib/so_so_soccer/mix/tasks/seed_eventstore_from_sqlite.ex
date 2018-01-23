@@ -58,6 +58,28 @@ defmodule Mix.Tasks.SeedEventstoreFromSqlite do
   group by m.season, l.id, t.id;
   """
 
+  @season_start_query """
+    select
+      m.season,
+      m.league_id,
+      min(m.date) as date
+      from Match m
+        where m.season = $1
+        group by season, league_id
+        order by season, date;
+  """
+
+  @season_end_query """
+    select
+      m.season,
+      m.league_id,
+      max(m.date) as date
+      from Match m
+        where m.season = $1
+        group by season, league_id
+        order by season, date;
+  """
+
   @start_apps [
     :postgrex,
     :eventstore
@@ -163,9 +185,9 @@ defmodule Mix.Tasks.SeedEventstoreFromSqlite do
       IO.inspect(last_match[:season], label: "Ending")
       IO.inspect(current_match[:season], label: "Starting")
       IO.puts("=====")
-      end_previous_season(last_match[:season], last_match[:played_at])
+      end_previous_season(db, last_match[:season])
       qualify_teams(db, current_match[:season])
-      start_new_season(current_match[:season], current_match[:played_at])
+      start_new_season(db, current_match[:season])
     end
 
     stream_id = "match:#{current_match[:id]}"
@@ -205,31 +227,46 @@ defmodule Mix.Tasks.SeedEventstoreFromSqlite do
         insert_season_and_match(db, match, last_match)
       end)
 
-    end_previous_season(last_match[:season], last_match[:played_at])
+    end_previous_season(db, last_match[:season])
   end
 
-  defp start_new_season(season, started_at) do
-    stream_id = season_id(season)
+  defp start_new_season(db, season) do
+    {:ok, seasons} = Sqlitex.query(db, @season_end_query, bind: [season])
 
-    event = %SeasonStarted{
-      id: stream_id,
-      started_at: started_at
-    }
+    Enum.each(seasons, fn(season_row) ->
+      season_id = season_id(season)
+      league_id = "league:#{season_row[:league_id]}"
+      stream_id = "#{season_id}_#{league_id}"
 
-    {:ok, _version} = EventStore.append_to_stream(stream_id, 0, [wrap(event)])
+      event = %SeasonStarted{
+        id: stream_id,
+        season_id: season_id,
+        league_id: league_id,
+        started_at: season_row[:date]
+      }
+
+      {:ok, _version} = EventStore.append_to_stream(stream_id, 0, [wrap(event)])
+    end)
   end
 
-  defp end_previous_season(nil, _ended_at), do: :ok
+  defp end_previous_season(_db, nil), do: :ok
+  defp end_previous_season(db, season) do
+    {:ok, seasons} = Sqlitex.query(db, @season_end_query, bind: [season])
 
-  defp end_previous_season(season, ended_at) do
-    stream_id = season_id(season)
+    Enum.each(seasons, fn(season_row) ->
+      season_id = season_id(season)
+      league_id = "league:#{season_row[:league_id]}"
+      stream_id = "#{season_id}_#{league_id}"
 
-    event = %SeasonEnded{
-      id: stream_id,
-      ended_at: ended_at
-    }
+      event = %SeasonEnded{
+        id: stream_id,
+        season_id: season_id,
+        league_id: league_id,
+        ended_at: season_row[:date]
+      }
 
-    {:ok, _version} = EventStore.append_to_stream(stream_id, 1, [wrap(event)])
+      {:ok, _version} = EventStore.append_to_stream(stream_id, 1, [wrap(event)])
+    end)
   end
 
   defp season_id(season) do
