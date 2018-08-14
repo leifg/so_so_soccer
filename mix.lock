@@ -2,7 +2,7 @@
   "benchee": {:hex, :benchee, "0.11.0", "cf96e328ff5d69838dd89c21a9db22716bfcc6ef772e9d9dddf7ba622102722d", [:mix], [{:deep_merge, "~> 0.1", [hex: :deep_merge, repo: "hexpm", optional: false]}], "hexpm"},
   "commanded": {:git, "https://github.com/commanded/commanded.git", "4c8d3ece68f69bdbf1f6d984b5f6f9ab157864fe", []},
   "commanded_ecto_projections": {:git, "https://github.com/commanded/commanded-ecto-projections.git", "5b3d81fb25d1d139dcb9c8c55a73153f493b8238", []},
-  "commanded_eventstore_adapter": {:git, "https://github.com/commanded/commanded-eventstore-adapter.git", "8f85ce1854dc064bf337f655a1937ef76d63ca4d", []},
+  "commanded_eventstore_adapter": {:git, "https://github.com/commanded/commanded-eventstore-adapter.git", "aa9375b0699f9ebd53a69ded0f0ba34ea666b36f", []},
   "connection": {:hex, :connection, "1.0.4", "a1cae72211f0eef17705aaededacac3eb30e6625b04a6117c1b2db6ace7d5976", [:mix], [], "hexpm"},
   "cowboy": {:hex, :cowboy, "1.1.2", "61ac29ea970389a88eca5a65601460162d370a70018afe6f949a29dca91f3bb0", [:rebar3], [{:cowlib, "~> 1.0.2", [hex: :cowlib, repo: "hexpm", optional: false]}, {:ranch, "~> 1.3.2", [hex: :ranch, repo: "hexpm", optional: false]}], "hexpm"},
   "cowlib": {:hex, :cowlib, "1.0.2", "9d769a1d062c9c3ac753096f868ca121e2730b9a377de23dec0f7e08b1df84ee", [:make], [], "hexpm"},
