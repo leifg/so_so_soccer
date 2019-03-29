@@ -1,5 +1,5 @@
 %{
-  "benchee": {:hex, :benchee, "0.11.0", "cf96e328ff5d69838dd89c21a9db22716bfcc6ef772e9d9dddf7ba622102722d", [:mix], [{:deep_merge, "~> 0.1", [hex: :deep_merge, repo: "hexpm", optional: false]}], "hexpm"},
+  "benchee": {:hex, :benchee, "1.0.0", "2524b6c0e541309d969accf75f77e1d1653e46142afc68e9ea4ff35559a794bc", [:mix], [{:deep_merge, "~> 1.0", [hex: :deep_merge, repo: "hexpm", optional: false]}], "hexpm"},
   "commanded": {:git, "https://github.com/commanded/commanded.git", "4c8d3ece68f69bdbf1f6d984b5f6f9ab157864fe", []},
   "commanded_ecto_projections": {:git, "https://github.com/commanded/commanded-ecto-projections.git", "5b3d81fb25d1d139dcb9c8c55a73153f493b8238", []},
   "commanded_eventstore_adapter": {:git, "https://github.com/commanded/commanded-eventstore-adapter.git", "8f85ce1854dc064bf337f655a1937ef76d63ca4d", []},
@@ -8,7 +8,7 @@
   "cowlib": {:hex, :cowlib, "1.0.2", "9d769a1d062c9c3ac753096f868ca121e2730b9a377de23dec0f7e08b1df84ee", [:make], [], "hexpm"},
   "db_connection": {:hex, :db_connection, "1.1.3", "89b30ca1ef0a3b469b1c779579590688561d586694a3ce8792985d4d7e575a61", [:mix], [{:connection, "~> 1.0.2", [hex: :connection, repo: "hexpm", optional: false]}, {:poolboy, "~> 1.5", [hex: :poolboy, repo: "hexpm", optional: true]}, {:sbroker, "~> 1.0", [hex: :sbroker, repo: "hexpm", optional: true]}], "hexpm"},
   "decimal": {:hex, :decimal, "1.4.1", "ad9e501edf7322f122f7fc151cce7c2a0c9ada96f2b0155b8a09a795c2029770", [:mix], [], "hexpm"},
-  "deep_merge": {:hex, :deep_merge, "0.1.1", "c27866a7524a337b6a039eeb8dd4f17d458fd40fbbcb8c54661b71a22fffe846", [:mix], [], "hexpm"},
+  "deep_merge": {:hex, :deep_merge, "1.0.0", "b4aa1a0d1acac393bdf38b2291af38cb1d4a52806cf7a4906f718e1feb5ee961", [:mix], [], "hexpm"},
   "ecto": {:hex, :ecto, "2.2.8", "a4463c0928b970f2cee722cd29aaac154e866a15882c5737e0038bbfcf03ec2c", [:mix], [{:db_connection, "~> 1.1", [hex: :db_connection, repo: "hexpm", optional: true]}, {:decimal, "~> 1.2", [hex: :decimal, repo: "hexpm", optional: false]}, {:mariaex, "~> 0.8.0", [hex: :mariaex, repo: "hexpm", optional: true]}, {:poison, "~> 2.2 or ~> 3.0", [hex: :poison, repo: "hexpm", optional: true]}, {:poolboy, "~> 1.5", [hex: :poolboy, repo: "hexpm", optional: false]}, {:postgrex, "~> 0.13.0", [hex: :postgrex, repo: "hexpm", optional: true]}, {:sbroker, "~> 1.0", [hex: :sbroker, repo: "hexpm", optional: true]}], "hexpm"},
   "esqlite": {:hex, :esqlite, "0.2.3", "1a8b60877fdd3d50a8a84b342db04032c0231cc27ecff4ddd0d934485d4c0cd5", [:rebar3], [], "hexpm"},
   "eventstore": {:git, "https://github.com/commanded/eventstore.git", "247c90d31cafeb7546262fcccd4665d44b7ce7a2", []},
